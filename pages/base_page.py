@@ -17,7 +17,7 @@ class BasePage:
     def find_elements(self, locator, timeout=10):
         return WebDriverWait(self.driver, timeout).until(EC.presence_of_all_elements_located(locator))
 
-    def cllick_element(self, locator, timeout=10):
+    def click_element(self, locator, timeout=10):
         element = self.find_element(locator, timeout)
         element.click()
 
