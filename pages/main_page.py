@@ -32,5 +32,12 @@ class MainPage(BasePage):
     def click_yandex_logo(self):
         self.click_element(self.YANDEX_LOGO)
 
+    def is_main_page(self):
+        return self.get_current_url() == self.base_url
+
+    def get_faq_answer_text(self, index):
+        answers = self.find_elements(self.FAQ_ANSWERS)
+        return answers[index].text
+
 
 
