@@ -24,4 +24,14 @@ class BasePage:
     def get_current_url(self):
         return self.driver.current_url
 
+    def wait_for_element_to_be_visible(self, locator, time=10):
+        return WebDriverWait(self.driver, time).until(
+            EC.visibility_of_element_located(locator),
+            message=f"Element {locator} is not visible"
+        )
 
+    def wait_for_element_to_be_clickable(self, locator, time=10):
+        return WebDriverWait(self.driver, time).until(
+            EC.element_to_be_clickable(locator),
+            message=f"Element {locator} is not clickable"
+        )
