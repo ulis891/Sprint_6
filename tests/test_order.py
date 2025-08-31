@@ -1,11 +1,10 @@
 import pytest
 import allure
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from pages.main_page import MainPage
 from pages.order_page import OrderPage
+from pages.dzen_page import DzenPage
 from tests.data import ORDER_TEST_DATA
-from selenium.webdriver.common.by import By
+
 
 
 @allure.feature('Order Scooter')
@@ -68,14 +67,12 @@ class TestOrderScooter:
         return main_page
 
     @allure.step('Проверить редирект на Дзен через логотип Яндекса')
-    def verify_yandex_redirect(self, driver):
-        main_page = MainPage(driver)
+    def verify_yandex_redirect(self, order_page):
+        main_page = MainPage(order_page.driver)
         main_page.click_yandex_logo()
-        WebDriverWait(driver, 15).until(
-            EC.presence_of_element_located((By.TAG_NAME, "body")) #todo: переделтаь
-        )
-
-        current_url = driver.current_url
+        dzen_page = DzenPage(order_page.driver)
+        dzen_page.is_dzen_loaded()
+        current_url = dzen_page.get_current_url()
         assert "dzen.ru" in current_url, f"Ожидался редирект на dzen.ru, получено: {current_url}"
 
     @allure.title('Успешный заказ самоката через {data[entry_point]} кнопку')
@@ -88,8 +85,5 @@ class TestOrderScooter:
         self.confirm_order(order_page)
         self.verify_order_success(order_page)
         self.click_status_button(order_page)
-
-        self.return_to_main_via_samokat_logo(driver)
-
-        self.verify_yandex_redirect(driver)
-
+        self.return_to_main_via_samokat_logo(order_page)
+        self.verify_yandex_redirect(order_page)
