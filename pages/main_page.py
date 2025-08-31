@@ -9,7 +9,7 @@ class MainPage(BasePage):
     FAQ_SECTION = (By.CSS_SELECTOR, "[data-accordion-component='Accordion']")
     FAQ_QUESTIONS = (By.CSS_SELECTOR, "[data-accordion-component='AccordionItem']")
     FAQ_QUESTION_BUTTONS = (By.CSS_SELECTOR, "[data-accordion-component='AccordionItemButton']")
-    FAQ_ANSWERS = (By.CSS_SELECTOR, "[data-accordion-component='AccordionItemPanel']")
+    FAQ_ANSWER = (By.CSS_SELECTOR, "[data-accordion-component='Accordion'] p")
 
     SAMOKAT_LOGO = (By.CLASS_NAME, "Header_LogoScooter__3lsAR")
     YANDEX_LOGO = (By.CLASS_NAME, "Header_LogoYandex__3TSOI")
@@ -37,8 +37,12 @@ class MainPage(BasePage):
         return self.get_current_url() == self.base_url
 
     def get_faq_answer_text(self, index):
-        answers = self.find_elements(self.FAQ_ANSWERS)
-        return answers[index].text
+        answer = self.find_elements(self.FAQ_ANSWER)
+        return answer[index].text
+
+    def click_faq_question(self, index):
+        answers = self.find_elements(self.FAQ_QUESTIONS)
+        answers[index].click()
 
 
 
