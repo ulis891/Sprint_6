@@ -28,6 +28,7 @@ class MainPage(BasePage):
 
     def click_samokat_logo(self):
         self.click_element(self.SAMOKAT_LOGO)
+        self.wait_for_page_load()
 
     def click_yandex_logo(self):
         self.click_element(self.YANDEX_LOGO)
