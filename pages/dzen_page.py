@@ -11,8 +11,8 @@ class DzenPage(BasePage):
 
     def is_dzen_loaded(self):
         try:
-            self.find_element(self.DZEN_LOGO)
-            self.find_element(self.DZEN_SEARCH_INPUT)
+            self.wait_for_element_to_be_visible(self.DZEN_LOGO)
+            self.wait_for_element_to_be_visible(self.DZEN_SEARCH_INPUT)
             return True
         except:
             return False
