@@ -63,16 +63,17 @@ class TestOrderScooter:
     def return_to_main_via_samokat_logo(self, order_page):
         main_page = MainPage(order_page.driver)
         main_page.click_samokat_logo()
+        main_page.wait_for_page_load()
         assert main_page.is_main_page(), "Не произошёл редирект на главную страницу Самоката"
         return main_page
 
     @allure.step('Проверить редирект на Дзен через логотип Яндекса')
-    def verify_yandex_redirect(self, order_page):
-        main_page = MainPage(order_page.driver)
+    def verify_yandex_redirect(self, main_page):
+        # original_tab = main_page.driver.current_window_handle
         main_page.click_yandex_logo()
-        dzen_page = DzenPage(order_page.driver)
-        dzen_page.is_dzen_loaded()
-        current_url = dzen_page.get_current_url()
+        main_page.switch_to_new_tab()
+        main_page.wait_for_page_load()
+        current_url = main_page.get_current_url()
         assert "dzen.ru" in current_url, f"Ожидался редирект на dzen.ru, получено: {current_url}"
 
     @allure.title('Успешный заказ самоката через {data[entry_point]} кнопку')
@@ -85,5 +86,5 @@ class TestOrderScooter:
         self.confirm_order(order_page)
         self.verify_order_success(order_page)
         self.click_status_button(order_page)
-        self.return_to_main_via_samokat_logo(order_page)
-        self.verify_yandex_redirect(order_page)
+        main_page = self.return_to_main_via_samokat_logo(order_page)
+        self.verify_yandex_redirect(main_page)
