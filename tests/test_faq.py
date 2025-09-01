@@ -15,11 +15,11 @@ class TestFAQ:
         main_page.scroll_to_bottom()
         return main_page
 
-    @allure.step('Кликнуть на вопрос FAQ')
+    @allure.step('Кликнуть на вопрос {question_index} FAQ')
     def click_faq_question(self, main_page, question_index):
         main_page.click_faq_question(question_index)
 
-    @allure.step('Получить текст ответа на вопрос')
+    @allure.step('Получить текст ответа на вопрос {question_index}')
     def get_faq_answer_text(self, main_page, question_index):
         return main_page.get_faq_answer_text(question_index)
 
