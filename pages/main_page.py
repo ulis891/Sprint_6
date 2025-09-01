@@ -12,8 +12,8 @@ class MainPage(BasePage):
     FAQ_QUESTION_BUTTONS = (By.CSS_SELECTOR, "[data-accordion-component='AccordionItemButton']")
     FAQ_ANSWER = (By.CSS_SELECTOR, "[data-accordion-component='Accordion'] p")
 
-    SAMOKAT_LOGO = (By.CLASS_NAME, "Header_LogoScooter__3lsAR")
-    YANDEX_LOGO = (By.CLASS_NAME, "Header_LogoYandex__3TSOI")
+    SAMOKAT_LOGO = (By.XPATH, "//img[@alt='Scooter']/parent::a")
+    YANDEX_LOGO = (By.XPATH, "//img[@alt='Yandex']/parent::a")
 
     def __init__(self, driver):
         super().__init__(driver)
