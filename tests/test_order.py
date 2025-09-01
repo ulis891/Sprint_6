@@ -2,9 +2,7 @@ import pytest
 import allure
 from pages.main_page import MainPage
 from pages.order_page import OrderPage
-from pages.dzen_page import DzenPage
 from tests.data import ORDER_TEST_DATA
-
 
 
 @allure.feature('Order Scooter')
@@ -69,7 +67,6 @@ class TestOrderScooter:
 
     @allure.step('Проверить редирект на Дзен через логотип Яндекса')
     def verify_yandex_redirect(self, main_page):
-        # original_tab = main_page.driver.current_window_handle
         main_page.click_yandex_logo()
         main_page.switch_to_new_tab()
         main_page.wait_for_page_load()
