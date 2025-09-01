@@ -1,5 +1,4 @@
 from selenium.webdriver.common.by import By
-
 from .base_page import BasePage
 
 
@@ -61,7 +60,6 @@ class OrderPage(BasePage):
                 break
 
     def fill_rental_info(self, date, period, color, comment):
-        # self.find_element(self.DATE_INPUT).send_keys(date)
         self.select_date_in_calendar(date)
         self.click_element(self.RENTAL_PERIOD_DROPDOWN)
         periods = self.find_elements(self.RENTAL_PERIOD_OPTION)
