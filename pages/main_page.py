@@ -1,5 +1,4 @@
 from selenium.webdriver.common.by import By
-
 from .base_page import BasePage
 
 
@@ -44,6 +43,3 @@ class MainPage(BasePage):
     def click_faq_question(self, index):
         answers = self.find_elements(self.FAQ_QUESTIONS)
         answers[index].click()
-
-
-
