@@ -9,26 +9,19 @@ from data import ORDER_TEST_DATA
 @allure.story('Проверка процесса заказа самоката')
 class TestOrderScooter:
 
-    @allure.step('Открыть главную страницу')
+    # @allure.step('Открыть главную страницу')
     def open_main_page(self, driver):
         main_page = MainPage(driver)
         main_page.go_to_site()
         return main_page
 
-    @allure.step('Кликнуть на кнопку просмотра статуса заказа')
     def click_status_button(self, order_page):
         order_page.click_status_button()
 
-    @allure.step('Кликнуть на кнопку заказа ({entry_point})')
     def click_order_button(self, main_page, driver, entry_point):
-        if entry_point == "top":
-            main_page.click_order_button_top()
-        else:
-            driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            main_page.click_order_button_bottom()
+        main_page.click_order_button(entry_point)
         return OrderPage(driver)
 
-    @allure.step('Заполнить информацию о клиенте')
     def fill_customer_info(self, order_page, customer_data):
         order_page.fill_customer_info(
             customer_data["name"],
@@ -39,7 +32,6 @@ class TestOrderScooter:
         )
         order_page.click_next_button()
 
-    @allure.step('Заполнить информацию об аренде')
     def fill_rental_info(self, order_page, rental_data):
         order_page.fill_rental_info(
             rental_data["date"],
@@ -49,15 +41,12 @@ class TestOrderScooter:
         )
         order_page.click_order_button()
 
-    @allure.step('Подтвердить заказ')
     def confirm_order(self, order_page):
         order_page.confirm_order()
 
-    @allure.step('Проверить успешность оформления заказа')
     def verify_order_success(self, order_page):
         assert order_page.is_order_successful(), "Заказ не был успешно оформлен"
 
-    @allure.step('Вернуться на главную страницу через логотип Самоката')
     def return_to_main_via_samokat_logo(self, order_page):
         main_page = MainPage(order_page.driver)
         main_page.click_samokat_logo()
@@ -65,7 +54,6 @@ class TestOrderScooter:
         assert main_page.is_main_page(), "Не произошёл редирект на главную страницу Самоката"
         return main_page
 
-    @allure.step('Проверить редирект на Дзен через логотип Яндекса')
     def verify_yandex_redirect(self, main_page):
         main_page.click_yandex_logo()
         main_page.switch_to_new_tab()

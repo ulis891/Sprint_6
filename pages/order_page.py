@@ -1,5 +1,6 @@
 from selenium.webdriver.common.by import By
 from .base_page import BasePage
+import allure
 
 
 class OrderPage(BasePage):
@@ -29,59 +30,71 @@ class OrderPage(BasePage):
         super().__init__(driver)
 
     def fill_customer_info(self, name, lastname, address, metro_station, phone):
-        self.find_element(self.NAME_INPUT).send_keys(name)
-        self.find_element(self.LASTNAME_INPUT).send_keys(lastname)
-        self.find_element(self.ADDRESS_INPUT).send_keys(address)
-
-        self.find_element(self.METRO_STATION_INPUT).click()
-        stations = self.find_elements(self.METRO_STATION_OPTION)
-        for station in stations:
-            if metro_station in station.text:
-                station.click()
-                break
-
-        self.find_element(self.PHONE_INPUT).send_keys(phone)
+        with allure.step('Заполнить информацию о клиенте'):
+            with allure.step('Заполнить полe имя'):
+                self.find_element(self.NAME_INPUT).send_keys(name)
+            with allure.step('Заполнить поле фамилия'):
+                self.find_element(self.LASTNAME_INPUT).send_keys(lastname)
+            with allure.step('Заполнить поле адрес'):
+                self.find_element(self.ADDRESS_INPUT).send_keys(address)
+            with allure.step('Выбрать станцию метро'):
+                self.find_element(self.METRO_STATION_INPUT).click()
+                stations = self.find_elements(self.METRO_STATION_OPTION)
+                for station in stations:
+                    if metro_station in station.text:
+                        station.click()
+                        break
+            with allure.step('Заполнить поле телефон'):
+                self.find_element(self.PHONE_INPUT).send_keys(phone)
 
     def click_next_button(self):
-        self.click_element(self.NEXT_BUTTON)
+        with allure.step('Нажать кнопку "Далее"'):
+            self.click_element(self.NEXT_BUTTON)
 
     def click_status_button(self):
-        self.click_element(self.STATUS_BUTTON)
+        with allure.step('Нажать кнопку "Посмотреть статус"'):
+            self.click_element(self.STATUS_BUTTON)
 
     def select_date_in_calendar(self, date):
-        day = date.split(".")[0]
-        self.find_element(self.DATE_INPUT).click()
-        self.wait_for_element_to_be_visible(self.DATE_PICKER)
-        days = self.find_elements(self.DATE_DAY)
+        with allure.step(f'Выбрать дату {date}'):
+            day = date.split(".")[0]
+            self.find_element(self.DATE_INPUT).click()
+            self.wait_for_element_to_be_visible(self.DATE_PICKER)
+            days = self.find_elements(self.DATE_DAY)
 
-        for day_element in days:
-            if day_element.text == day and day_element.is_enabled():
-                day_element.click()
-                break
+            for day_element in days:
+                if day_element.text == day and day_element.is_enabled():
+                    day_element.click()
+                    break
 
     def fill_rental_info(self, date, period, color, comment):
-        self.select_date_in_calendar(date)
-        self.click_element(self.RENTAL_PERIOD_DROPDOWN)
-        periods = self.find_elements(self.RENTAL_PERIOD_OPTION)
-        for p in periods:
-            if period in p.text:
-                p.click()
-                break
-
-        if color == "black":
-            self.click_element(self.COLOR_BLACK_CHECKBOX)
-        elif color == "grey":
-            self.click_element(self.COLOR_GREY_CHECKBOX)
-
-        if comment:
-            self.find_element(self.COMMENT_INPUT).send_keys(comment)
+        with allure.step('Заполнить информацию об аренде'):
+            self.select_date_in_calendar(date)
+            with allure.step(f'Выбрать период аренды {period}'):
+                self.click_element(self.RENTAL_PERIOD_DROPDOWN)
+                periods = self.find_elements(self.RENTAL_PERIOD_OPTION)
+                for p in periods:
+                    if period in p.text:
+                        p.click()
+                        break
+            with allure.step(f'Выбрать цвет {color}'):
+                if color == "black":
+                    self.click_element(self.COLOR_BLACK_CHECKBOX)
+                elif color == "grey":
+                    self.click_element(self.COLOR_GREY_CHECKBOX)
+            with allure.step(f'Заполнить поле комментарий'):
+                if comment:
+                    self.find_element(self.COMMENT_INPUT).send_keys(comment)
 
     def click_order_button(self):
-        self.click_element(self.ORDER_BUTTON)
+        with allure.step('Нажать кнопку "Заказать"'):
+            self.click_element(self.ORDER_BUTTON)
 
     def confirm_order(self):
-        self.click_element(self.CONFIRM_ORDER_BUTTON)
+        with allure.step('Подтвердить заказ'):
+            self.click_element(self.CONFIRM_ORDER_BUTTON)
 
     def is_order_successful(self):
-        success_element = self.find_element(self.SUCCESS_MODAL)
-        return "Заказ оформлен" in success_element.text
+        with allure.step('Проверить успешность заказа'):
+            success_element = self.find_element(self.SUCCESS_MODAL)
+            return "Заказ оформлен" in success_element.text
