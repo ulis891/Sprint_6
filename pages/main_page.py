@@ -1,6 +1,7 @@
 from selenium.webdriver.common.by import By
 from .base_page import BasePage
 import allure
+from .order_page import OrderPage
 
 
 class MainPage(BasePage):
@@ -25,14 +26,8 @@ class MainPage(BasePage):
             else:
                 self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
                 self.click_element(self.ORDER_BUTTON_BOTTOM)
+            return OrderPage(self.driver)
 
-    # def click_order_button_top(self, point):
-    #     with allure.step(f"Кликнуть на кнопку заказа {point}"):
-    #         self.click_element(self.ORDER_BUTTON_TOP)
-    #
-    # def click_order_button_bottom(self, point):
-    #     with allure.step(f"Кликнуть на кнопку заказа {point}"):
-    #         self.click_element(self.ORDER_BUTTON_BOTTOM)
 
     def scroll_to_bottom(self):
         with allure.step("Прокрутить до низа страницы"):
