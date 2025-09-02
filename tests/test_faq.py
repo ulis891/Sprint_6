@@ -8,28 +8,24 @@ from data import FAQ_TEST_DATA
 @allure.story('Проверка ответов на частые вопросы')
 class TestFAQ:
 
-    @allure.step('Открыть главную страницу и прокрутить к FAQ')
     def open_main_page(self, driver):
         main_page = MainPage(driver)
         main_page.go_to_site()
         main_page.scroll_to_bottom()
         return main_page
 
-    @allure.step('Кликнуть на вопрос {question_index} FAQ')
     def click_faq_question(self, main_page, question_index):
         main_page.click_faq_question(question_index)
 
-    @allure.step('Получить текст ответа на вопрос {question_index}')
     def get_faq_answer_text(self, main_page, question_index):
         return main_page.get_faq_answer_text(question_index)
 
-    @allure.step('Проверить, что ответ содержит текст')
     def verify_answer_contains_text(self, answer_text, expected_text, question_index):
         assert answer_text is not None, f"Ответ на вопрос #{question_index + 1} не найден"
         assert expected_text in answer_text, \
             f"Ожидаемый фрагмент '{expected_text}' не найден в ответе: {answer_text}"
 
-    @allure.title('Проверка ответов на вопросы FAQ')
+    @allure.title('Проверка ответов FAQ')
     @allure.description('Проверка, что при клике на вопрос отображается правильный ответ')
     @pytest.mark.parametrize('question_index, expected_answer', FAQ_TEST_DATA)
     def test_faq_question_answer(self, driver, question_index, expected_answer):

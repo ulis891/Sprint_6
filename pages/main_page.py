@@ -1,5 +1,6 @@
 from selenium.webdriver.common.by import By
 from .base_page import BasePage
+import allure
 
 
 class MainPage(BasePage):
@@ -17,29 +18,45 @@ class MainPage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
 
-    def click_order_button_top(self):
-        self.click_element(self.ORDER_BUTTON_TOP)
+    def click_order_button(self, point):
+        with allure.step(f"Кликнуть на кнопку заказа {point}"):
+            if point == "top":
+                self.click_element(self.ORDER_BUTTON_TOP)
+            else:
+                self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+                self.click_element(self.ORDER_BUTTON_BOTTOM)
 
-    def click_order_button_bottom(self):
-        self.click_element(self.ORDER_BUTTON_BOTTOM)
+    # def click_order_button_top(self, point):
+    #     with allure.step(f"Кликнуть на кнопку заказа {point}"):
+    #         self.click_element(self.ORDER_BUTTON_TOP)
+    #
+    # def click_order_button_bottom(self, point):
+    #     with allure.step(f"Кликнуть на кнопку заказа {point}"):
+    #         self.click_element(self.ORDER_BUTTON_BOTTOM)
 
     def scroll_to_bottom(self):
-        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        with allure.step("Прокрутить до низа страницы"):
+            self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
     def click_samokat_logo(self):
-        self.click_element(self.SAMOKAT_LOGO)
-        self.wait_for_page_load()
+        with allure.step("Кликнуть на логотип Самоката"):
+            self.click_element(self.SAMOKAT_LOGO)
+            self.wait_for_page_load()
 
     def click_yandex_logo(self):
-        self.click_element(self.YANDEX_LOGO)
+        with allure.step("Кликнуть на логотип Яндекс"):
+            self.click_element(self.YANDEX_LOGO)
 
     def is_main_page(self):
-        return self.get_current_url() == self.base_url
+        with allure.step("Проверить, что находимся на главной странице"):
+            return self.get_current_url() == self.base_url
 
     def get_faq_answer_text(self, index):
-        answer = self.find_elements(self.FAQ_ANSWER)
-        return answer[index].text
+        with allure.step(f"Получить текст ответа на вопрос {index + 1}"):
+            answer = self.find_elements(self.FAQ_ANSWER)
+            return answer[index].text
 
     def click_faq_question(self, index):
-        answers = self.find_elements(self.FAQ_QUESTIONS)
-        answers[index].click()
+        with allure.step(f"Кликнуть на вопрос {index + 1}"):
+            answers = self.find_elements(self.FAQ_QUESTIONS)
+            answers[index].click()
