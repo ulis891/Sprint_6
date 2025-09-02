@@ -67,7 +67,6 @@ class OrderPage(BasePage):
                     day_element.click()
                     break
 
-
     def fill_rental_info(self, rental_data):
         with allure.step('Заполнить информацию об аренде'):
             self.select_date_in_calendar(rental_data["date"])
