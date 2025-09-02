@@ -1,5 +1,6 @@
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+import allure
 
 
 class BasePage:
@@ -8,7 +9,8 @@ class BasePage:
         self.base_url = "https://qa-scooter.praktikum-services.ru/"
 
     def go_to_site(self):
-        return self.driver.get(self.base_url)
+        with allure.step("Переход на главную страницу"):
+            return self.driver.get(self.base_url)
 
     def find_element(self, locator, timeout=10):
         return WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located(locator))
@@ -21,7 +23,8 @@ class BasePage:
         element.click()
 
     def get_current_url(self):
-        return self.driver.current_url
+        with allure.step("Получение текущего URL"):
+            return self.driver.current_url
 
     def wait_for_element_to_be_visible(self, locator, timeout=10):
         return WebDriverWait(self.driver, timeout).until(
@@ -46,9 +49,10 @@ class BasePage:
         )
 
     def switch_to_new_tab(self):
-        original_tab = self.driver.current_window_handle
-        for tab_handle in self.driver.window_handles:
-            if tab_handle != original_tab:
-                self.driver.switch_to.window(tab_handle)
-                return tab_handle
-        return None
+        with allure.step("Переключение на новую вкладку"):
+            original_tab = self.driver.current_window_handle
+            for tab_handle in self.driver.window_handles:
+                if tab_handle != original_tab:
+                    self.driver.switch_to.window(tab_handle)
+                    return tab_handle
+            return None
