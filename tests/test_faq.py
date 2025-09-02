@@ -1,7 +1,7 @@
 import pytest
 import allure
 from pages.main_page import MainPage
-from tests.data import FAQ_TEST_DATA
+from data import FAQ_TEST_DATA
 
 
 @allure.feature('FAQ Section')

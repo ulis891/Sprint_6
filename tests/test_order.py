@@ -2,7 +2,7 @@ import pytest
 import allure
 from pages.main_page import MainPage
 from pages.order_page import OrderPage
-from tests.data import ORDER_TEST_DATA
+from data import ORDER_TEST_DATA
 
 
 @allure.feature('Order Scooter')
